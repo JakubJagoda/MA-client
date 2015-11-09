@@ -1,0 +1,16 @@
+<div>
+    <div ng-if="shoppingListViewCtrl.loading">Loading...</div>
+    <div ng-if="!shoppingListViewCtrl.loading">
+        <span ng-if="!shoppingListViewCtrl.shoppingListItems.length">You don't have any products on your shopping list</span>
+        <div ng-if="shoppingListViewCtrl.shoppingListItems.length">
+            Your products:
+            <ul>
+                <li ng-repeat="shoppingListItem in shoppingListViewCtrl.shoppingListItems">
+                    {{::shoppingListItem.name}} x{{::shoppingListItem.amount}}
+                    <button ng-click="shoppingListViewCtrl.editItem(shoppingListItem.id)">Edit</button>
+                </li>
+            </ul>
+        </div>
+        <a ui-sref="products.list">Add new products</a>
+    </div>
+</div>

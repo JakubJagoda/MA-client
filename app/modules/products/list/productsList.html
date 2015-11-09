@@ -1,0 +1,8 @@
+<div>
+    <ul>
+        <li ng-repeat="product in productsListCtrl.products">
+            {{::product.name}} <button ng-click="productsListCtrl.addProduct(product.id)">Add</button>
+        </li>
+    </ul>
+    <a ui-sref="shoppingLists.view">Go back</a>
+</div>

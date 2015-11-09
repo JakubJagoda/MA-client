@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+app/components
+node_modules
+platforms
+typings
+www

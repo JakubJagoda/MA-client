@@ -1,0 +1,26 @@
+{
+  "name": "MA-client",
+  "version": "0.0.0",
+  "authors": [
+    "Kuba Jagoda <kuba.jagoda+github@gmail.com>"
+  ],
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "~0.2.15",
+    "angular": "~1.4.7",
+    "core.js": "~1.2.4",
+    "angularLocalStorage": "~0.3.2"
+  }
+}

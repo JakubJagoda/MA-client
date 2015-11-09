@@ -1,0 +1,10 @@
+<div ng-if="registerCtrl.success">
+    Success! Now you can <a ui-sref="user.login">log in</a>.
+</div>
+<form name="registerForm" ng-if="!registerCtrl.success">
+    Your username: <input type="text" ng-model="registerCtrl.username" required><br />
+    Password: <input type="password" ng-model="registerCtrl.password" required><br />
+    Repeat password: <input type="password" ng-model="registerCtrl.passwordRepeat" required><br />
+    <button ng-click="registerCtrl.register()" ng-disabled="registerForm.$invalid">Register</button>
+</form>
+<div ng-if="registerCtrl.error">{{registerCtrl.error}}</div>

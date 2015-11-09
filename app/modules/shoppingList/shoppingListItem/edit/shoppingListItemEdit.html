@@ -1,0 +1,6 @@
+<div>
+    {{::shoppingListItemEditCtrl.shoppingListItem.name}}
+    <input type="number" ng-model="shoppingListItemEditCtrl.shoppingListItem.amount">
+    <button ng-click="shoppingListItemEditCtrl.deleteItem()">Delete</button>
+    <button ng-click="shoppingListItemEditCtrl.saveItem()">Save</button>
+</div>
