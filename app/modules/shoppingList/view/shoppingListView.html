@@ -2,6 +2,7 @@
     <div ng-if="shoppingListViewCtrl.loading">Loading...</div>
     <div ng-if="!shoppingListViewCtrl.loading">
         <span ng-if="!shoppingListViewCtrl.shoppingListItems.length">You don't have any products on your shopping list</span>
+
         <div ng-if="shoppingListViewCtrl.shoppingListItems.length">
             Your products:
             <ul>
@@ -11,7 +12,10 @@
                 </li>
             </ul>
         </div>
-        <a href="#" ng-click="shoppingListViewCtrl.addItems()">Add new products</a>
-        <a href="#" ng-click="shoppingListViewCtrl.goBack()">Go back to your shopping lists</a>
+        <div>
+            <button ng-click="shoppingListViewCtrl.addItems()">Add new products</button>
+            <br/>
+            <button ng-click="shoppingListViewCtrl.goBack()">Go back to your shopping lists</button>
+        </div>
     </div>
 </div>

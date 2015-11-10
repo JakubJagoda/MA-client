@@ -1,6 +1,16 @@
-import GenericApiHelper from "../../../genericApiHelper.service";
+import AppStateService from "../../appState/appState.service";
 
-export default class LoginFormHelperService extends GenericApiHelper {
+export default class LoginFormHelperService {
+    private $http: angular.IHttpService;
+    private REST_API_ADDRESS:string;
+    private AppState:AppStateService;
+
+    constructor($http:angular.IHttpService, REST_API_ADDRESS:string, AppState:AppStateService) {
+        this.$http = $http;
+        this.REST_API_ADDRESS = REST_API_ADDRESS;
+        this.AppState = AppState;
+    }
+
     login(name:string, password:string) {
         console.log('1234', this.AppState);
         return this.AppState.login(name, password);

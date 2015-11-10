@@ -1,6 +1,6 @@
-import GenericApiHelper from "../../../genericApiHelper.service";
 import IPromise = angular.IPromise;
 import IHttpPromise = angular.IHttpPromise;
+import AppStateService from "../../appState/appState.service";
 
 interface IShoppingListItem {
     id: number;
@@ -21,7 +21,17 @@ interface IProduct {
     name: string;
 }
 
-export default class ShoppingListItemApiService extends GenericApiHelper {
+export default class ShoppingListItemApiService {
+    private $http: angular.IHttpService;
+    private REST_API_ADDRESS:string;
+    private AppState:AppStateService;
+
+    constructor($http:angular.IHttpService, REST_API_ADDRESS:string, AppState:AppStateService) {
+        this.$http = $http;
+        this.REST_API_ADDRESS = REST_API_ADDRESS;
+        this.AppState = AppState;
+    }
+
     private getUrlPrefix() {
         return `${this.REST_API_ADDRESS}/users/${this.AppState.getUserId()}/shopping-lists`;
     }

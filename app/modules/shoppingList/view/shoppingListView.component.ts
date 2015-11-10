@@ -28,9 +28,7 @@ export default function ShoppingListViewComponent():angular.IDirective {
             };
 
             this.goBack = () => {
-                $state.go('shoppingLists.view', {
-                    shoppingListId: $stateParams['shoppingListId']
-                });
+                $state.go('shoppingLists.list');
             };
         },
         controllerAs: 'shoppingListViewCtrl'
