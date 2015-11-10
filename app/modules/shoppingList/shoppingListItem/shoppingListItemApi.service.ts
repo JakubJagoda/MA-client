@@ -12,6 +12,15 @@ interface IGetShoppingListItemsResponse {
     data: IShoppingListItem;
 }
 
+interface IGetProductsResponse {
+    data: IProduct[];
+}
+
+interface IProduct {
+    id: number;
+    name: string;
+}
+
 export default class ShoppingListItemApiService extends GenericApiHelper {
     private getUrlPrefix() {
         return `${this.REST_API_ADDRESS}/users/${this.AppState.getUserId()}/shopping-lists`;
@@ -29,5 +38,17 @@ export default class ShoppingListItemApiService extends GenericApiHelper {
 
     saveShoppingItem(shoppingListId:number, itemId:number, shoppingListItem:IShoppingListItem):IHttpPromise<void> {
         return this.$http.put<void>(`${this.getUrlPrefix()}/${shoppingListId}/products/${itemId}`, {shoppingListItem});
+    }
+
+    getProducts():PromiseLike<IProduct[]> {
+        return this.$http.get<IGetProductsResponse>(`${this.REST_API_ADDRESS}/products`)
+            .then(productsResponse => productsResponse.data.data);
+    }
+
+    addProduct(shoppingListId:number, productId:number) {
+        return this.$http.post(`${this.getUrlPrefix()}/${shoppingListId}/products`, {
+            productId,
+            amount: 0
+        });
     }
 }

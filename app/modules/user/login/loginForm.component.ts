@@ -7,20 +7,17 @@ export default function LoginFormComponent():angular.IDirective {
         templateUrl: 'modules/user/login/loginForm.html',
         controller($state:angular.ui.IStateService, LoginFormHelper:LoginFormHelperService){
             this.login = () => {
+                console.log('DUPA');
                 LoginFormHelper
                     .login(this.username, this.password)
                     .then(() => {
-                        //TODO: API is prepared for many shopping lists per user, add them here too
-                        $state.go('shoppingLists.view', {shoppingListId: 1});
-                        //navigator.notification.alert(`Login succeded! Returned data: ${response.data}`, () => {});
+                        console.info('login succeeded');
+                        $state.go('shoppingLists.list');
                     })
                     .catch(e => {
-                        navigator.notification.alert(`Login failed! Returned data: ${e.message || e}`, () => {});
+                        console.error('login failed');
+                        LoginFormHelper.showIncorrectCredentialsAlert()
                     });
-            };
-
-            this.register = () => {
-                $state.go('user.register');
             };
         },
         controllerAs: 'loginFormCtrl'

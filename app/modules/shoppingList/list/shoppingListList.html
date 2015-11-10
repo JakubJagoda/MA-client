@@ -1,0 +1,8 @@
+<div>
+    Your shopping lists:
+    <ul>
+        <li ng-repeat="shoppingList in shoppingListListCtrl.shoppingLists">
+            <a ui-sref="shoppingLists.view({shoppingListId: shoppingList.id})">{{::shoppingList.name}}</a>
+        </li>
+    </ul>
+</div>

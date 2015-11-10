@@ -1,6 +1,6 @@
 import ShoppingListItemApiService from "../shoppingListItemApi.service";
-import ui = angular.ui;
 import ShoppingListItemEditHelper from "./shoppingListItemEditHelper.service";
+import ui = angular.ui;
 
 export default function ():angular.IDirective {
     return {

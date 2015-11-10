@@ -1,3 +1,4 @@
+import IPromise = angular.IPromise;
 interface IUserData {
     id: number;
     name: string;
@@ -27,13 +28,17 @@ export default class AppStateService {
         this.storage = storage;
     }
 
-    login(name:string, password:string):angular.IPromise<void> {
+    login(name:string, password:string):IPromise<void> {
+        console.log(`${this.REST_API_ADDRESS}/tokens`);
         return this.$http
             .post<ILoginResponse>(`${this.REST_API_ADDRESS}/tokens`, {name, password})
             .then(response => {
+                console.log('response data get');
                 const responseData = response.data.data;
                 this.setUserId(responseData.user.id);
                 this.setToken(responseData.token);
+            }).catch(e => {
+                console.log(e);
             });
     }
 
