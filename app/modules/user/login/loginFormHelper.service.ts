@@ -12,7 +12,6 @@ export default class LoginFormHelperService {
     }
 
     login(name:string, password:string) {
-        console.log('1234', this.AppState);
         return this.AppState.login(name, password);
     }
 
