@@ -8,7 +8,7 @@ interface IShoppingListItem {
     name: string;
 }
 
-interface IGetShoppingListItemsResponse {
+interface IGetShoppingListItemResponse {
     data: IShoppingListItem;
 }
 
@@ -19,6 +19,13 @@ interface IGetProductsResponse {
 interface IProduct {
     id: number;
     name: string;
+}
+
+interface IGetShoppingListItemsResponse {
+    data: {
+        id: number,
+        shoppingListItems: IShoppingListItem[]
+    };
 }
 
 export default class ShoppingListItemApiService {
@@ -38,7 +45,7 @@ export default class ShoppingListItemApiService {
 
     getShoppingListItem(shoppingListId:number, itemId:number):IPromise<IShoppingListItem> {
         return this.$http
-            .get<IGetShoppingListItemsResponse>(`${this.getUrlPrefix()}/${shoppingListId}/products/${itemId}`)
+            .get<IGetShoppingListItemResponse>(`${this.getUrlPrefix()}/${shoppingListId}/products/${itemId}`)
             .then(response => response.data.data);
     }
 
@@ -60,5 +67,11 @@ export default class ShoppingListItemApiService {
             productId,
             amount: 0
         });
+    }
+
+    getShoppingListItems(shoppingListId: number) {
+        return this.$http
+            .get<IGetShoppingListItemsResponse>(`${this.REST_API_ADDRESS}/users/${this.AppState.getUserId()}/shopping-lists/${shoppingListId}`)
+            .then(response => response.data.data.shoppingListItems);
     }
 }
