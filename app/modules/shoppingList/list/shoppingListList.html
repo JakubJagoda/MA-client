@@ -1,8 +1,14 @@
 <div>
-    Your shopping lists:
-    <ul>
-        <li ng-repeat="shoppingList in shoppingListListCtrl.shoppingLists">
-            <a ui-sref="shoppingLists.view({shoppingListId: shoppingList.id})">{{::shoppingList.name}}</a>
-        </li>
-    </ul>
+    <div ng-if="shoppingListListCtrl.loading">Loading...</div>
+    <div ng-if="!shoppingListListCtrl.loading">
+        Your shopping lists:
+        <ul>
+            <li ng-repeat="shoppingList in shoppingListListCtrl.shoppingLists">
+                <a ui-sref="shoppingLists.view({shoppingListId: shoppingList.id})">{{::shoppingList.name}}</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <button ng-click="shoppingListListCtrl.logout()">Logout</button>
+    </div>
 </div>

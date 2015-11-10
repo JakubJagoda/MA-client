@@ -1,9 +1,13 @@
 <div>
-    <ul ng-if="shoppingListItemAddCtrl.products.length">
-        <li ng-repeat="product in shoppingListItemAddCtrl.products">
-            {{::product.name}} <button ng-click="shoppingListItemAddCtrl.addProduct(product.id)">Add</button>
-        </li>
-    </ul>
-    <div ng-if="!shoppingListItemAddCtrl.products.length">No more products to add.</div>
-    <button ng-click="shoppingListItemAddCtrl.goBack()">Go back</button>
+    <div ng-if="shoppingListItemAddCtrl.loading">Loading...</div>
+    <div ng-if="!shoppingListItemAddCtrl.loading">
+        <ul ng-if="shoppingListItemAddCtrl.products.length">
+            <li ng-repeat="product in shoppingListItemAddCtrl.products">
+                {{::product.name}}
+                <button ng-click="shoppingListItemAddCtrl.addProduct(product.id)">Add</button>
+            </li>
+        </ul>
+        <div ng-if="!shoppingListItemAddCtrl.products.length">No more products to add.</div>
+        <button ng-click="shoppingListItemAddCtrl.goBack()">Go back</button>
+    </div>
 </div>

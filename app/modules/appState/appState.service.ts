@@ -38,7 +38,9 @@ export default class AppStateService {
             });
     }
 
-    logout(){}
+    logout() {
+        this.setToken('');
+    }
 
     getToken():string {
         return this.token;
