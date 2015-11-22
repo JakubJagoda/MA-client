@@ -1,19 +1,21 @@
 <div>
     <div ng-if="shoppingListViewCtrl.loading">Loading...</div>
     <div ng-if="!shoppingListViewCtrl.loading">
-        <span ng-if="!shoppingListViewCtrl.shoppingListItems.length">You don't have any products on your shopping list</span>
+        <span ng-if="!shoppingListViewCtrl.shoppingListItems.length">You don't have any items on your shopping list</span>
 
         <div ng-if="shoppingListViewCtrl.shoppingListItems.length">
-            Your products:
+            Your items:
             <ul>
                 <li ng-repeat="shoppingListItem in shoppingListViewCtrl.shoppingListItems">
-                    {{::shoppingListItem.name}} x{{::shoppingListItem.amount}}
-                    <button ng-click="shoppingListViewCtrl.editItem(shoppingListItem.id)">Edit</button>
+                    {{::shoppingListItem.name}} &times;{{shoppingListItem.amount}}
+                    <button ng-click="shoppingListViewCtrl.incrementItem(shoppingListItem)">+</button>
+                    <button ng-click="shoppingListViewCtrl.decrementItem(shoppingListItem)">-</button>
+                    <button ng-click="shoppingListViewCtrl.removeItem(shoppingListItem)">X</button>
                 </li>
             </ul>
         </div>
         <div>
-            <button ng-click="shoppingListViewCtrl.addItems()">Add new products</button>
+            <button ng-click="shoppingListViewCtrl.addItem()">Add new product</button>
             <br/>
             <button ng-click="shoppingListViewCtrl.goBack()">Go back to your shopping lists</button>
         </div>

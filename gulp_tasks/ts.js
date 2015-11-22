@@ -3,7 +3,7 @@ const gulp = require('gulp'),
     ngAnnotate = require('gulp-ng-annotate');
 
 module.exports = function () {
-    return gulp.src(['app/*.ts', 'app/modules/**/*.ts'])
+    return gulp.src(['app/*.ts', 'app/modules/**/*.ts', '!app/**/*.d.ts'])
         .pipe(webpack({
             module: {
                 loaders: [

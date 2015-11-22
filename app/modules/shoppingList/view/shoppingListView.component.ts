@@ -1,4 +1,4 @@
-import ShoppingListApiService from "./shoppingListViewApi.service";
+import ShoppingListViewHelperService from "./shoppingListViewHelper.service";
 import ui = angular.ui;
 
 export default function ShoppingListViewComponent():angular.IDirective {
@@ -6,25 +6,37 @@ export default function ShoppingListViewComponent():angular.IDirective {
         restrict: 'E',
         scope: {},
         templateUrl: 'modules/shoppingList/view/shoppingListView.html',
-        controller($stateParams:ui.IStateParamsService, $state:ui.IStateService, ShoppingListViewApi:ShoppingListApiService) {
+        controller($stateParams:ui.IStateParamsService, $state:ui.IStateService, ShoppingListViewHelper:ShoppingListViewHelperService) {
             this.loading = true;
 
-            ShoppingListViewApi.getShoppingListItems($stateParams['shoppingListId']).then(shoppingList => {
-                this.shoppingListItems = shoppingList.shoppingListItems;
-                this.loading = false;
-            });
-
-            this.addItems = () => {
-                $state.go('shoppingLists.addItems', {
-                    shoppingListId: $stateParams['shoppingListId']
+            ShoppingListViewHelper.getShoppingListItems($stateParams['shoppingListId'])
+                .then(shoppingListItems => {
+                    this.shoppingListItems = shoppingListItems;
+                    this.loading = false;
                 });
+
+            this.addItem = () => {
+                ShoppingListViewHelper.addItemToShoppingList($stateParams['shoppingListId'])
+                    .then(newShoppingListItem => this.shoppingListItems.push(newShoppingListItem));
             };
 
-            this.editItem = itemId => {
-                $state.go('shoppingLists.editItem', {
-                    shoppingListId: $stateParams['shoppingListId'],
-                    itemId
-                });
+            this.incrementItem = item => {
+                ShoppingListViewHelper.incrementItem($stateParams['shoppingListId'], item);
+            };
+
+            this.decrementItem = item => {
+                ShoppingListViewHelper.decrementItem($stateParams['shoppingListId'], item);
+            };
+
+            this.removeItem = item => {
+                ShoppingListViewHelper.deleteItemFromShoppingList($stateParams['shoppingListId'], item)
+                    .then(wasRemoved => {
+                        if (!wasRemoved) {
+                            return;
+                        }
+
+                        ShoppingListViewHelper.removeItemFromLocalList(this.shoppingListItems, item);
+                    });
             };
 
             this.goBack = () => {

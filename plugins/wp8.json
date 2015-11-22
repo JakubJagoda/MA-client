@@ -21,7 +21,7 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "{47cc1610-8004-11e5-8532-f38f8e1bd0bb}"
         },
-        "org.apache.cordova.dialogs": {
+        "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "{47cc1610-8004-11e5-8532-f38f8e1bd0bb}"
         }
     },
