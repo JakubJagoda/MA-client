@@ -69,13 +69,16 @@
       "commit": "eb59a40d3c2f3257e34ec2ede181046230814a41"
     },
     "angularjs/angular.d.ts": {
-      "commit": "eb59a40d3c2f3257e34ec2ede181046230814a41"
+      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
     },
     "jquery/jquery.d.ts": {
-      "commit": "eb59a40d3c2f3257e34ec2ede181046230814a41"
+      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
     },
     "angularLocalStorage/angularLocalStorage.d.ts": {
       "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+    },
+    "angular-jwt/angular-jwt.d.ts": {
+      "commit": "8ea42cd8bb11863ed6f242d67c502288ebc45a7b"
     }
   }
 }

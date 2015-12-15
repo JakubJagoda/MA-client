@@ -1,4 +1,5 @@
 import IPromise = angular.IPromise;
+import IJwtHelper = angular.jwt.IJwtHelper;
 interface IUserData {
     id: number;
     name: string;
@@ -15,17 +16,12 @@ export default class AppStateService {
     private token: string;
     private userId: number;
 
-    private $http:angular.IHttpService;
-    private REST_API_ADDRESS:string;
-    private storage: angular.localStorage.ILocalStorageService;
-
     private static LS_TOKEN_KEY = 'MA_TOKEN';
 
-    constructor($http:angular.IHttpService, storage: angular.localStorage.ILocalStorageService,
-                REST_API_ADDRESS:string) {
-        this.$http = $http;
-        this.REST_API_ADDRESS = REST_API_ADDRESS;
-        this.storage = storage;
+    constructor(private $http:angular.IHttpService, private storage: angular.localStorage.ILocalStorageService,
+                private jwtHelper: IJwtHelper, private REST_API_ADDRESS:string) {
+
+        this.setToken(this.storage.get(AppStateService.LS_TOKEN_KEY));
     }
 
     login(name:string, password:string):IPromise<void> {
@@ -33,7 +29,6 @@ export default class AppStateService {
             .post<ILoginResponse>(`${this.REST_API_ADDRESS}/tokens`, {name, password})
             .then(response => {
                 const responseData = response.data.data;
-                this.setUserId(responseData.user.id);
                 this.setToken(responseData.token);
             });
     }
@@ -47,8 +42,18 @@ export default class AppStateService {
     }
 
     setToken(token:string) {
+        if (!token) {
+            this.token = null;
+            this.userId = null;
+            this.storage.remove(AppStateService.LS_TOKEN_KEY);
+            return;
+        }
+
         this.token = token;
         this.storage.set(AppStateService.LS_TOKEN_KEY, token);
+
+        const userId = (<any>this.jwtHelper.decodeToken(this.token)).id;
+        this.setUserId(userId);
     }
 
     isUserLoggedIn():boolean {

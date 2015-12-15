@@ -10,6 +10,9 @@ gulp.task('clean:build', clean);
 //gulp.task('serve', ['ts:serve', 'html:serve', 'scss:serve'], serve);
 
 gulp.task('ts:build', ['clean:build'], ts);
+gulp.task('ts:watch', function () {
+    gulp.watch(['app/*.ts', 'app/modules/**/*.ts'], ['ts:build']);
+});
 
 gulp.task('html:build', ['clean:build'], html);
 //gulp.task('html-watch:serve', html);

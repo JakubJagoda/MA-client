@@ -8,7 +8,8 @@ angular.module('MA', [
         'MA.core',
         'MA.user',
         'MA.shoppingList',
-        'MA.appState'
+        'MA.appState',
+        'MA.sync'
     ])
     .config(appConfigPhase)
     .config(appRoutesConfig)
@@ -17,7 +18,8 @@ angular.module('MA', [
 angular.module('MA.core', [
     'MA.constants',
     'ui.router',
-    'angularLocalStorage'
+    'angularLocalStorage',
+    'angular-jwt'
 ]);
 
 //add constants

@@ -62,4 +62,8 @@ export default class ShoppingListViewHelperService {
             return this.saveItem(shoppingListId, item);
         }
     }
+
+    sync(shoppingListId:number, items: ShoppingList.IShoppingListItem[]) {
+        return this.ShoppingListViewApi.sync(shoppingListId, items);
+    }
 }

@@ -12,6 +12,7 @@ declare namespace ShoppingList {
 
     interface IGetShoppingListResponse {
         data: IShoppingList;
+        meta: any;
     }
 
     interface IAddShoppingListItemResponse {

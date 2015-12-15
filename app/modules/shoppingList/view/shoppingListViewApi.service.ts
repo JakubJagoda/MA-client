@@ -1,16 +1,11 @@
 import AppStateService from "../../appState/appState.service";
 import IPromise = angular.IPromise;
 import IHttpPromise = angular.IHttpPromise;
+import SyncService from "../../sync/sync.service";
 
 export default class ShoppingListViewApiService {
-    private $http:angular.IHttpService;
-    private REST_API_ADDRESS:string;
-    private AppState:AppStateService;
-
-    constructor($http:angular.IHttpService, REST_API_ADDRESS:string, AppState:AppStateService) {
-        this.$http = $http;
-        this.REST_API_ADDRESS = REST_API_ADDRESS;
-        this.AppState = AppState;
+    constructor(private $http:angular.IHttpService, private REST_API_ADDRESS:string, private AppState:AppStateService,
+                private Sync:SyncService) {
     }
 
     private getUrlPrefix() {
@@ -20,7 +15,17 @@ export default class ShoppingListViewApiService {
     getShoppingListItems(shoppingListId:number):IPromise<ShoppingList.IShoppingList> {
         return this.$http
             .get<ShoppingList.IGetShoppingListResponse>(`${this.getUrlPrefix()}/${shoppingListId}`)
-            .then(response => response.data.data);
+            .then(response => {
+                Object.getOwnPropertyNames(response.data.meta)
+                    .forEach(productId => {
+                        this.Sync.addProduct(Number(productId), {
+                            subtotal: response.data.meta[productId].subtotals[this.Sync.getGuid()] || 0,
+                            overall: response.data.meta[productId].overall
+                        });
+                    });
+
+                return response.data.data;
+            });
     }
 
     addItem(shoppingListId:number, itemName:string):IPromise<ShoppingList.IShoppingListItem> {
@@ -35,7 +40,27 @@ export default class ShoppingListViewApiService {
         return this.$http.delete<void>(`${this.getUrlPrefix()}/${shoppingListId}/items/${itemId}`)
     }
 
-    saveItem(shoppingListId:number, shoppingListItem:ShoppingList.IShoppingListItem):IHttpPromise<void> {
-        return this.$http.put<void>(`${this.getUrlPrefix()}/${shoppingListId}/items/${shoppingListItem.id}`, {shoppingListItem});
+    saveItem(shoppingListId:number, shoppingListItem:ShoppingList.IShoppingListItem) {
+        const product = this.Sync.getProduct(shoppingListItem.id);
+        const currentSubtotal = product.subtotal;
+        const currentOverall = product.overall;
+        const newSubtotal = currentSubtotal + (shoppingListItem.amount - currentOverall);
+        this.Sync.updateProduct(shoppingListItem.id, newSubtotal, shoppingListItem.amount);
+    }
+
+    sync(shoppingListId:number, items:ShoppingList.IShoppingListItem[]) {
+        const meta = {};
+
+        for (const shoppingListItem of items) {
+            meta[shoppingListItem.id] = this.Sync.getProduct(shoppingListItem.id);
+        }
+
+        return this.$http.put<void>(`${this.getUrlPrefix()}/${shoppingListId}`, {
+            data: {items},
+            meta
+        }).then(() => {
+            return this.getShoppingListItems(shoppingListId)
+                .then(shoppingList => shoppingList.shoppingListItems);
+        });
     }
 }

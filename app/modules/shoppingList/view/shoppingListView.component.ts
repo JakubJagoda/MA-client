@@ -28,6 +28,13 @@ export default function ShoppingListViewComponent():angular.IDirective {
                 ShoppingListViewHelper.decrementItem($stateParams['shoppingListId'], item);
             };
 
+            this.sync = () => {
+                ShoppingListViewHelper.sync($stateParams['shoppingListId'], this.shoppingListItems)
+                    .then(shoppingListItems => {
+                        this.shoppingListItems = shoppingListItems;
+                    });
+            };
+
             this.removeItem = item => {
                 ShoppingListViewHelper.deleteItemFromShoppingList($stateParams['shoppingListId'], item)
                     .then(wasRemoved => {
