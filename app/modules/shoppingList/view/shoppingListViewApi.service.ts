@@ -36,6 +36,14 @@ export default class ShoppingListViewApiService {
             }).then(response => response.data.data);
     }
 
+    addNestedShoppingList(parentShoppingListId:number, name:string):IPromise<ShoppingList.IShoppingList> {
+        return this.$http
+            .post<ShoppingList.IAddShoppingListItemResponse>(this.getUrlPrefix(), {
+                name,
+                parentShoppingListId
+            }).then(response => response.data.data);
+    }
+
     deleteItem(shoppingListId:number, itemId:number):IHttpPromise<void> {
         return this.$http.delete<void>(`${this.getUrlPrefix()}/${shoppingListId}/items/${itemId}`)
     }

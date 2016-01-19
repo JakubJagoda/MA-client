@@ -1,0 +1,3 @@
+<div ng-click="ratingCtrl.setNewRating($event)">
+    <span class="star star-full" ng-repeat="_ in ratingCtrl.getRange(ratingCtrl.item.rating)">&#9733;</span><span class="star star-empty" ng-repeat="_ in ratingCtrl.getRange(ratingCtrl.maxRating - ratingCtrl.item.rating)">&#9734;</span>
+</div>

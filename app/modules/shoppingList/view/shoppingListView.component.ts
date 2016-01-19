@@ -10,10 +10,28 @@ export default function ShoppingListViewComponent():angular.IDirective {
             this.loading = true;
 
             ShoppingListViewHelper.getShoppingListItems($stateParams['shoppingListId'])
-                .then(shoppingListItems => {
-                    this.shoppingListItems = shoppingListItems;
+                .then(data => {
+                    this.shoppingListItems = data.items;
+                    this.nestedShoppingLists = data.nestedLists;
+
+                    if (data.parentShoppingList) {
+                        this.parentShoppingList = data.parentShoppingList;
+                    }
+
                     this.loading = false;
                 });
+
+            this.addNestedShoppingList = () => {
+                ShoppingListViewHelper.addNestedShoppingList($stateParams['shoppingListId']).then(result => {
+                    this.nestedShoppingLists.push(result);
+                });
+            };
+
+            this.goToParentList = () => {
+                $state.go('shoppingLists.view', {
+                    shoppingListId: this.parentShoppingList
+                });
+            };
 
             this.addItem = () => {
                 ShoppingListViewHelper.addItemToShoppingList($stateParams['shoppingListId'])
@@ -48,6 +66,11 @@ export default function ShoppingListViewComponent():angular.IDirective {
 
             this.goBack = () => {
                 $state.go('shoppingLists.list');
+            };
+
+            this.onRated = (item, newRating) => {
+                item.rating = newRating;
+                ShoppingListViewHelper.saveItem($stateParams['shoppingListId'], item);
             };
         },
         controllerAs: 'shoppingListViewCtrl'

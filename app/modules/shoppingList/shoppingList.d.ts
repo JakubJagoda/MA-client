@@ -3,11 +3,15 @@ declare namespace ShoppingList {
         id: number;
         name: string;
         amount: number;
+        rating: number;
     }
 
     interface IShoppingList {
         id: number,
-        shoppingListItems: IShoppingListItem[]
+        name: string;
+        shoppingListItems?: IShoppingListItem[];
+        nestedShoppingLists?: IShoppingList[];
+        parentShoppingList?: number;
     }
 
     interface IGetShoppingListResponse {
@@ -17,5 +21,9 @@ declare namespace ShoppingList {
 
     interface IAddShoppingListItemResponse {
         data: IShoppingListItem;
+    }
+
+    interface IAddNestedShoppingListResponse {
+        data: IAddNestedShoppingListResponse
     }
 }

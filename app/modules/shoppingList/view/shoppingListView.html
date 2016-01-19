@@ -1,9 +1,9 @@
 <div>
     <div ng-if="shoppingListViewCtrl.loading">Loading...</div>
     <div ng-if="!shoppingListViewCtrl.loading">
-        <span ng-if="!shoppingListViewCtrl.shoppingListItems.length">You don't have any items on your shopping list</span>
+        <span ng-if="!shoppingListViewCtrl.shoppingListItems.length && !shoppingListViewCtrl.nestedShoppingLists.length">You don't have any items on your shopping list</span>
 
-        <div ng-if="shoppingListViewCtrl.shoppingListItems.length">
+        <div ng-if="shoppingListViewCtrl.shoppingListItems.length || shoppingListViewCtrl.nestedShoppingLists.length">
             Your items:
             <ul>
                 <li ng-repeat="shoppingListItem in shoppingListViewCtrl.shoppingListItems">
@@ -11,11 +11,19 @@
                     <button ng-click="shoppingListViewCtrl.incrementItem(shoppingListItem)">+</button>
                     <button ng-click="shoppingListViewCtrl.decrementItem(shoppingListItem)">-</button>
                     <button ng-click="shoppingListViewCtrl.removeItem(shoppingListItem)">X</button>
+                    <rating max-rating="5" item="shoppingListItem" on-rated="shoppingListViewCtrl.onRated(item, newRating)"></rating>
+                </li>
+                <li ng-repeat="nestedList in shoppingListViewCtrl.nestedShoppingLists">
+                    <a ui-sref="shoppingLists.view({shoppingListId: nestedList.id})">{{::nestedList.name}}</a>
                 </li>
             </ul>
         </div>
         <div>
+            <button ng-if="shoppingListViewCtrl.parentShoppingList" ng-click="shoppingListViewCtrl.goToParentList()">Go to parent list</button>
+            <br/>
             <button ng-click="shoppingListViewCtrl.addItem()">Add new product</button>
+            <br/>
+            <button ng-click="shoppingListViewCtrl.addNestedShoppingList()">Add nested shopping list</button>
             <br/>
             <button ng-click="shoppingListViewCtrl.goBack()">Go back to your shopping lists</button>
             <br />

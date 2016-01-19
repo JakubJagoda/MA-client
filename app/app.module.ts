@@ -9,7 +9,8 @@ angular.module('MA', [
         'MA.user',
         'MA.shoppingList',
         'MA.appState',
-        'MA.sync'
+        'MA.sync',
+        'MA.rating'
     ])
     .config(appConfigPhase)
     .config(appRoutesConfig)
@@ -30,3 +31,4 @@ constants.forEach((value:any, name:string) => constantsModule.constant(name, val
 import './modules/user/user.module';
 import './modules/shoppingList/shoppingList.module';
 import './modules/appState/appState.module';
+import './modules/rating/rating.module.ts';
